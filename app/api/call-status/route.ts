@@ -8,13 +8,12 @@ const client = twilio(
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData()
-  const callStatus = formData.get('CallStatus') as string
+  const dialCallStatus = formData.get('DialCallStatus') as string
   const fromNumber = formData.get('From') as string
 
-  // Only fire the text-back if the call was missed
   const missedStatuses = ['no-answer', 'busy', 'failed']
 
-  if (missedStatuses.includes(callStatus)) {
+  if (missedStatuses.includes(dialCallStatus)) {
     try {
       await client.messages.create({
         body:
@@ -24,15 +23,12 @@ export async function POST(req: NextRequest) {
         from: process.env.TWILIO_PHONE_NUMBER,
         to: fromNumber,
       })
-
-      // TODO: also save this lead to your database/dashboard here
       console.log(`Missed call text sent to ${fromNumber}`)
     } catch (err) {
       console.error('Failed to send missed-call text:', err)
     }
   }
 
-  // Twilio expects a valid response, even an empty one
   return new NextResponse('<Response></Response>', {
     headers: { 'Content-Type': 'text/xml' },
   })
