@@ -1,7 +1,7 @@
 export const STUDIO = {
   name: 'StudioFlow',
   tagline: 'Book your next appointment in seconds',
-  phone: '(415) 555-0192',
+  phone: '(831) 498-1443',
   email: 'hello@studioflow.beauty',
   address: '218 Rosewood Avenue, Suite 4, San Francisco, CA 94110',
   hours: [
